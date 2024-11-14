@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/stockQuestions.css">
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel = 'stylesheet' href="/css/dashboard.css">
+
+<%- include('partials/dashboardHeader') -%>
+
+<section class = 'body'>
+    <div class="container">
+        <form method = 'POST' action = '/quiz/stocks' id="quiz-form">
+            <% questions.forEach((question, index) => { %>
+                <div class="question">
+                    <h2><%= index + 1 %>. <%= question.text %></h2>
+                    <ul class="options">
+                        <% question.choices.forEach((option, optIndex) => { %>
+                            <li>
+                                <label>
+                                    <input type="radio" name="q<%= index + 1 %>" value="<%= option %>">
+                                    <%= String.fromCharCode(65 + optIndex) %>) <%= option.text %>
+                                </label>
+                            </li>
+                        <% }) %>
+                    </ul>
+                   
+                </div>
+            <% }) %>
+            <button id = 'button' type="submit"><span>View my results.</span></button>
+        </form>
+    </div>
+</section>

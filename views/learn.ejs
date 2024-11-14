@@ -1,0 +1,57 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel = 'stylesheet' href="/css/dashboard.css">
+<link rel = 'stylesheet' href="css\learn.css">
+
+<%- include('partials/dashboardHeader') -%>
+
+
+<section class = 'body'>
+    <div class = 'welcome'>
+        <p> Welcome to</p>
+        <h2>FiscallySmart AI Educational Content</h2>
+    </div>
+
+    <div class = 'assets'>
+        <h2>Assets Classes</h2>
+        <div class = 'assetContainer'>
+            <section class = 'assetGrid'>
+                <div  id = 'stockImg' class = 'gridImg'>
+                    <a href = '/learn/stocks'><h3>Stocks</h3></a>
+                </div>
+            </section>
+            <section class = 'assetGrid'>
+                <div class = 'gridImg'>
+                    <a href = '/learn/bonds'><h3>Bonds</h3></a>  
+                </div>
+            </section>
+            <section class = 'assetGrid'>
+                <div class = 'gridImg'>
+                    <a href = '/learn/etf'><h3>ETFs</h3></a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id = 'investing' class = 'assets'>
+        <h2>Basic Investing Principles</h2>
+        <div class = 'assetContainer'>
+            <section class = 'assetGrid'>
+                <div  id = 'stockImg' class = 'gridImg'>
+                    <a href = '/learn/intro'><h3>Introduction to Investing</h3></a>
+                </div>
+            </section>
+            <section class = 'assetGrid'>
+                <div class = 'gridImg'>
+                    <a href = '/learn/risk'><h3>Understanding Risk and Return</h3></a>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<script src = 'js\learn.js'></script>

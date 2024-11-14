@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = 'stylesheet' href = 'css/login.css'>
+    <link href = 'css\index.css' rel = "stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap')
+      </style>
+    <title>FiscallySmart AI</title>
+</head>
+<body>
+  <nav class = 'nav'>
+        <a class = 'header' href = '/'><span><i class="fa-solid fa-chart-pie"></i></span> FiscallySmart AI</a>
+        <div>
+            <a class = 'login' href = '/login'><i class="fa-solid fa-right-to-bracket"></i>Log In</a>
+        </div>
+    </nav>
+
+   <div class = 'divBody'>
+    <form action="/signup" method="POST">
+      <div class = 'caption'>
+        <h3>Get Started</h3>
+        <p>Unlock Financial analysis backed by ML/AI models</p>
+      </div>
+      
+      <% if (errors && errors.length) { %>
+         <% errors.forEach( el => { %>
+           <div class="error"><%= el.msg %></div>
+       <% }) %>    
+    <% } %>
+
+    <div class="mail input-container">
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      aria-describedby="emailHelp"
+      name="username"
+      placeholder="Username"
+    />
+  </div>
+  <div class="mail input-container">
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      aria-describedby="emailHelp"
+      name="email"
+      placeholder="Email"
+    />
+  </div>
+  <div class="password input-container">
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      placeholder="Password"
+    />
+  </div>
+  <div class="password input-container">
+    <input
+      type="password"
+      class="form-control"
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+    />
+  </div>
+  <div>
+    <button type="submit">Create account</button>
+  </div>
+  <p>Have an account? <a href="/login">Sign in<i class="fa-solid fa-arrow-right"></i></a></p> 
+</form>
+
+    
+    </div>
+    <script src = 'js\client.js'></script>
+</body>
+</html>

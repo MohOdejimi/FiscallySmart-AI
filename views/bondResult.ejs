@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/css/stockQuestions.css">
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel = 'stylesheet' href="/css/dashboard.css">
+
+<%- include('partials/dashboardHeader') -%>
+
+<section class = 'body'>
+    <div class="container">
+        <form id="quiz-form">
+            <% questions.forEach((question, index) => { %>
+                <div class="question">
+                    <h2><%= index + 1 %>. <%= question.text %></h2>
+                    <ul class="options">
+                        <% question.choices.forEach((option, optIndex) => { %>
+                            <li><%= String.fromCharCode(65 + optIndex) %>) <%= option.text %></li>
+                        <% }) %>
+                    </ul> 
+                    <div>
+                        <p>Correct Answer: </p>
+                        <p><span class = 'answer'><%= correctOptions[index].letter %>)</span><%= correctOptions[index].text %></p>
+                    </div>
+                </div>
+            <% }) %> 
+            <p class = 'scores'>Your score is <%= result %>%.</p>  
+
+        </form>
+
+    </div>
+</section>
+
+
+

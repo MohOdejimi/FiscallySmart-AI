@@ -1,0 +1,58 @@
+.goalsBody {
+    margin: 1.5em 5em;  
+}
+#plans {
+    font-size: 1.35em;
+    font-weight: bold;
+    margin-bottom: 0.75em;
+    text-align: center;
+}
+#welcomeP {
+    line-height: 1.5em;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;    
+}
+
+.grid-item {
+    background: linear-gradient(#001F3F, #008080);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item:hover {
+    transform: scale(1.02);
+}
+
+.grid-item a {
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.grid-item a:hover {
+    color: #3498db;
+}
+@media screen and (max-width: 480px) {
+    .goalsBody {
+        margin: 1em;
+    }
+    #plans {
+        font-size: 1em;
+        text-align: initial;
+    }
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}

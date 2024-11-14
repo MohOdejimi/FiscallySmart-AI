@@ -1,0 +1,126 @@
+<!-- dashboard header -->
+<%- include('partials/dashboardHeader') -%>
+<style>
+    .dashboardBody {
+    margin: 1.5em 1.25em;
+    }
+    #welcome {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+    }
+    .grid-container {
+    margin-top: 1.5em;
+    display: flex;
+    justify-content: space-evenly;
+    }
+    .grid-container div {
+        flex: 0 0 auto; 
+        width: 17em; 
+        height: 200px; 
+        background: linear-gradient(#001F3F, #008080);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+    }
+    #plans {
+        margin-top: 2em;
+        font-size: 1.2em;
+    }
+    .plans {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        gap: 1em;
+        margin-top: 1em;
+    }
+    .plans div:nth-child(1) {
+        border-radius: 10px;
+        height: 100px; 
+        background: linear-gradient(#001F3F, #008080);
+    }
+    .plans div:nth-child(1) h3 {
+        padding-left: 0.5em;
+        padding-top: 0.75em;
+    }
+    .name {
+        font-weight: 200;
+        padding-left: 0.8em;
+        font-size: 0.75em;
+    }
+    @media screen and (max-width: 480px) {
+        .grid-container div {
+            width: 20em;
+        }
+        .plans {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin-top: 1em;
+     }
+    }
+</style>
+
+<section class = 'dashboardBody'>
+    <div id = 'welcome'>
+        <h3>Welcome, <%= username %></h3>
+        <h3><%= currentDate.toDateString() %></h3>
+    </div>
+    <div class="grid-container">
+        <!-- Grid items -->
+        <div>
+            <a href = '/goals' class="grid-item">
+                <h3>
+                    <i class="fa-solid fa-bullseye"></i>
+                    Financial Goal Tracking
+                </h3>
+            </a>
+        </div>
+
+        <div>
+            <a href = '/trading' class="grid-item">
+                <h3>
+                    <i class="fa-solid fa-business-time"></i>
+                    Stock-Trading
+                </h3>
+            </a>
+        </div>
+    </div>
+    <section> 
+        <% if ( plans.length > 0) { %>
+            <h3 id = 'plans'>My Goals</h3>
+            <section class = 'plans'>
+                <% for (let i = 0; i < plans.length ; i++) { %>
+                    <div>
+                        <a href = '/goals/<%= plans[i].id %>/<%= plans[i].goalID %>' class="grid-item">
+                            <div>
+                                <div>
+                                    <% if (plans[i].id === 1) { %>
+                                        <h3><%= plans[i].goal_name %></h3>
+                                        <p class="name">Business Plan</p>
+                                      <% } else if (plans[i].id === 2) { %>
+                                        <h3><%= plans[i].goal_name %></h3>
+                                        <p class="name">Home Plan</p>
+                                      <% } else if(plans[i].id === 3) { %>
+                                        <h3><%= plans[i].goal_name %></h3>
+                                        <p class="name">School Plan</p>
+                                      <% }  else if (plans[i].id === 4) { %>
+                                        <h3><%= plans[i].goal_name %></h3>
+                                        <p class="name">Travel Plan</p>
+                                      <% } else if (plans[i].id === 5) { %>
+                                        <h3><%= plans[i].goal_name %></h3>
+                                        <p class="name">Kids Plan</p>
+                                      <% } else { %>
+                                        <h3><%= plans[i].goal_name %></h3>
+                                        <p class="name">Rent Plan</p>
+                                      <% } %> 
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% } %>
+            <% } %>
+            </section>
+    </section>
+</section>
+
+<script src = 'js\client.js'></script>

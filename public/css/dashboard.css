@@ -1,0 +1,50 @@
+body {
+  background: black;
+  color: white;
+}
+#header {
+  color: white;
+  font-size: 1.3em;
+  text-decoration-line: none;
+}
+.welcome {
+  font-size: 1.5em;
+}
+#profileImg {
+  color: white;
+  font-size: 1.25em;
+}
+#profileTab {
+  border: 1px solid #008080;
+  border-radius: 50%; 
+}
+#user-menu-button {
+  width: 2em;
+  height: 2em;
+  background-color: #008080; 
+  border: 1px solid #008080; 
+  border-radius: 50%; 
+}
+#profileDB, #profileNEWS, #profileRS, #profileIR {
+  color: white;
+  background: none;
+}
+#profileDB:hover, #profileNEWS:hover, #profileRS:hover, #profileIR:hover{
+  color: rgb(194, 190, 190);
+  background: none;
+}
+#profileDB:focus, #profileNEWS:focus, #profileRS:focus, #profileIR:focus {
+  color: #008080;
+}
+#profileBar, #mobile-menu {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .grid-container {
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+  }
+}

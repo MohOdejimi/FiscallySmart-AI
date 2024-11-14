@@ -1,0 +1,74 @@
+.divBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: black;
+    font-family: gentium plus;
+  }
+
+  form {
+    width: 20rem;
+    height: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  form input {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+    margin-top: 1.5em;
+    background-color: #363636;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: roboto;
+  }
+  
+  ::placeholder {
+    font-family: gentium plus;
+  }
+
+  a {
+    text-decoration-line: none;
+  }
+  button {
+    margin-top: 1em;
+    cursor: pointer;
+    width: 100%;
+    padding: 1em;
+    background: #008080;
+    border: none;
+    color: white;
+    font-family: gentium plus;
+  }
+
+ p i {
+  margin: 0.2em;
+  align-self: center;
+ }
+ .caption h3 {
+  font-size: 1.7em;
+ }
+ .caption p {
+  font-size: 0.9em;
+ }
+
+
+ .error {
+  color: #ff0000; 
+  background-color: #ffebee; 
+  border: 1px solid #e53935; 
+  padding: 10px; 
+  margin-bottom: 10px; 
+  border-radius: 5px; 
+  font-size: .7em
+}

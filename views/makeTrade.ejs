@@ -1,0 +1,361 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel = 'stylesheet' href="/css/dashboard.css">
+
+<%- include('partials/dashboardHeader') -%>
+
+<style>
+    .body {
+        padding: 1em;
+        margin: 1em 5em;
+        border: 1px solid grey;
+    }
+    #stock-symbol {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid grey;
+    }
+    #stock-symbol h2 {
+        font-size: 1.3em;
+        font-weight: 500;
+    }
+    #trade {
+        display: flex;
+        gap: 0.75em;
+        color: black;
+        padding-bottom: 0.5em;
+    }
+    .buy {
+        background-color: rgb(26, 177, 26);
+        padding: 0.5em 0.75em;
+        border-radius: 8px;
+    }
+    .buy:hover, .sell:hover {
+        cursor: pointer;
+    }
+    .sell {
+        background-color: red;
+        padding: 0.5em 0.75em;
+        border-radius: 8px;
+    }
+    .second {
+        padding-top: 1em;
+    }
+    .price{
+        font-size: 1.45em;
+    }
+    #priceDetails {
+        display: flex;
+        font-size: 0.7em;
+        font-weight: 350;
+        gap: 0.3em;
+    }
+    .gain {
+        color: rgb(26, 177, 26)
+    }
+    .gain:hover {
+        color: rgb(8, 70, 8)
+    }
+    .loss {
+        color: red;
+    }
+    .loss:hover {
+        color: rgb(78, 8, 8)
+    }
+    .stats, #invest {
+        margin-top: 1em;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8em;
+        font-weight: 400;
+        border-bottom: 1px solid gray;
+    }
+    .stats h3 {
+        font-size: 0.95em
+    }
+    #investments h1, #news-grid h1 {
+        margin-top: 1.3em;
+        font-size: 1.3rem;
+    }
+    .statistics h1 {
+        font-size: 1.3rem;
+    }
+    #news-grid h1 {
+        margin-bottom: 0.75em
+    }
+    #news-grid div {
+        font-size: 0.85em;
+    }
+    #invest p {
+        padding-bottom: 0em;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 0.85em;
+    }
+    .modal-content {
+        margin: 20% auto;
+        padding: 10px;
+        width: 90%;
+        color: white;
+        max-width: 500px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        background-color: #0A0A0A;
+    }
+    #buy:focus {
+        color: rgb(26, 177, 26)
+    }
+    #sell:focus {
+        color: red
+    }
+    #buyForm h3, #sellForm h3, .complete h3 {
+        margin-top: 0.75em;
+        font-size: 0.95em;
+    }
+    .btns {
+        display: flex;
+        justify-content: space-evenly;
+        border-bottom: 1px solid grey;
+        padding: 0.5em 1em;
+    }
+    .buyDeets, .complete{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.75em;
+        font-size: 0.85em;
+    }
+    .buyDeets div input{
+        background: #3b3636;
+        padding: 0.5em; 
+        border-radius: 5px;
+        border: none;
+        outline: none;
+    }
+    .complete div input {
+        background: #3b3636;
+        padding: 0.5em; 
+        border-radius: 5px;
+    }
+    #buyForm div p, .complete p, #sellForm div p {
+        font-weight: 300;
+        color: white;
+        font-size: 0.8em;
+        margin-top: 0.3em;
+    }
+    .complete p {
+        margin-bottom: 0.5em;
+    }
+    .complete div:nth-child(2) {
+        display: flex;
+        gap: 0.4em;
+    }
+    .closeBtn, #continueBtn {
+        font-size: 1em;
+        align-self:flex-end;
+        padding: 0.75em;
+        border-radius: 5px;
+    }
+    #continueBtn {
+        background-color: rgb(3, 147, 3);
+        color: black;
+        font-weight: 500;
+    }
+    .closeBtn {
+        color: white
+    }
+    #continueBtn:hover, .closeBtn:hover {
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 480px) {
+        .body {
+            margin: 1em;
+        }
+    }
+</style>
+
+<section class = 'body'>
+    <div id = 'stock-symbol'>
+        <div>
+            <h2><%= symbol %></h2>
+        </div>
+        <div id = 'trade' >
+            <h4 id = 'buyBtn' type = 'submit' name = 'action' value = 'buy' class = 'buy'>Buy</h4>
+            <h4 id = 'sellBtn' type = 'submit' name = 'action' value = 'sell' class = 'sell'>Sell</h4>
+        </div>
+    </div>
+    <div class = 'second'>
+        <p class = 'price'>$<%= currentPrice %></p>
+        <div id = "priceDetails">
+            <% if ( percentageGain ) { %>
+                <p class = 'gain'><i class="fa-solid fa-arrow-trend-up"></i>  $<%= positiveValue %></p>
+                <p class = 'gain'>(+<%= percentageGain %>%)</p>
+            <% } else { %>
+                <p class = 'loss'><i class="fa-solid fa-arrow-trend-down"></i>  $<%= negativeValue %></p>
+                <p class = 'loss'>(-<%= percentageLoss %>%)</p>
+             <% } %>   
+        </div>
+    </div>
+    <div class = 'statistics'>
+        <h1>Key Statistics</h1>
+        <div class = 'stats'>
+            <h3>Open</h3>
+            <p>$<%= open %></p>
+        </div>
+        <div class = 'stats'>
+            <h3>High</h3>
+            <p>$<%= high %></p>
+        </div>
+        <div class = 'stats'>
+            <h3>Low</h3>
+            <p>$<%= low %></p>
+        </div>
+        <div class = 'stats'>
+            <h3>Prev Close</h3>
+            <p>$<%= close %></p>
+        </div>
+    </div>
+    <div id = 'investments'>
+        <h1>My Investments</h1>
+        <div id = 'invest'>
+            <h3>Holdings</h3>
+            <p><%= holdings %> <%= symbol %></p>
+        </div>
+        <div id = 'invest'>
+            <h3>Current Value</h3>
+            <p>$<%= value %></p>
+        </div>
+    </div>
+    <% if (data)  { %>
+        <section id = 'news-grid' class='news-grid'>
+            <h1 >Latest News</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <% data.forEach(news => { %>
+                    <div class="news-card bg-white p-4 rounded-lg shadow-lg">
+                        <img src="<%= news.image_url %>" alt="<%= news.title %>" class="w-full h-32 object-cover rounded-md mb-2">
+                        <p class="text-gray-600 mb-1"><%= news.snippet %></p>
+                        <a target ="_blank" href ="<%= news.url %>" class="text-blue-500 hover:underline">Read more</a>
+                        <p class="text-sm text-gray-500 mt-1"><%= new Date(news.published_at).toLocaleDateString() %></p>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+     <% } %>
+
+
+    <div id="buyModal" class="modal">
+        <div class="modal-content">
+            <div class = 'btns'>
+                <button id = 'buy'>BUY</button>
+                <button id = 'sell'>SELL</button>
+            </div>
+            <form id = 'buyForm' action = "/trading/trade/<%= id %>/?_method=PUT" method = "POST">
+                <h3><%= symbol %></h3>
+                <section class = 'buyDeets'>
+                    <div>
+                        <input type = 'text' value = '<%= holdings %> Shares' readonly>
+                        <p>Holdings</p>
+                    </div>
+                    <div>
+                        <input type = 'text' value = '$<%= value %>' readonly>
+                        <p>Corresponding Value</p>
+                    </div>
+                </section>
+                <section class = 'complete'>
+                    <div>
+                        <h3>Number of Shares</h3>
+                        <p>How much shares would you buy?</p>
+                        <input type = 'number' name = 'numOFShares' step = '0.01' placeholder= '0.00' required>
+                    </div>
+                    <div>
+                        <h4 id = 'buyCloseBtn' class = 'closeBtn'>Close</h4>
+                        <button name = "action" value = "buy" id = 'continueBtn'>Complete</button>
+                    </div>
+                </section>
+            </form>
+            <form id = 'sellForm' action = "/trading/trade/<%= id %>/?_method=PUT" method = "POST">
+                <h3><%= symbol %></h3>
+                <section class = 'buyDeets'>
+                    <div>
+                        <input type = 'text' value = '<%= holdings %> Shares' readonly>
+                        <p>Holdings</p>
+                    </div>
+                    <div>
+                        <input type = 'text' value = '$<%= value %>' readonly>
+                        <p>Corresponding Value</p>
+                    </div>
+                </section>
+                <section class = 'complete'>
+                    <div>
+                        <h3>Number of Shares</h3>
+                        <p>How much shares would you sell?</p>
+                        <input type = 'number' name = 'numOFShares' step = '0.01' placeholder= '0.00' required>
+                    </div>
+                    <div>
+                        <h4 id = 'sellCloseBtn' class = 'closeBtn'>Close</h4>
+                        <button name = "action" value = "sell" id = 'continueBtn'>Complete</button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    const firstBuyBtn = document.getElementById('buyBtn')
+    const firstSellBtn = document.getElementById('sellBtn')
+    const secondBuyBtn = document.getElementById('buy')
+    const secondSellBtn = document.getElementById('sell')
+    const modal = document.getElementById('buyModal')
+    const buyForm = document.getElementById('buyForm')
+    const sellForm =document.getElementById('sellForm')
+    const buyCloseBtn = document.getElementById('buyCloseBtn')
+    const sellCloseBtn = document.getElementById('sellCloseBtn')
+
+    firstBuyBtn.onclick = function () {
+        modal.style.display = 'block'
+        buyForm.style.display = 'block'
+        sellForm.style.display = 'none'
+        secondBuyBtn.style.color = 'rgb(26, 177, 26)'
+        secondSellBtn.style.color = 'white'
+    }
+    firstSellBtn.onclick = function () {
+        modal.style.display = 'block'
+        buyForm.style.display = 'none'
+        sellForm.style.display = 'block'
+        secondBuyBtn.style.color = 'white'
+        secondSellBtn.style.color = 'red'
+    }
+    secondBuyBtn.onclick = function () {
+        buyForm.style.display = 'block'
+        sellForm.style.display = 'none'
+        secondBuyBtn.style.color = 'rgb(26, 177, 26)'
+        secondSellBtn.style.color = 'white'
+    }
+    secondSellBtn.onclick = function () {
+        buyForm.style.display = 'none'
+        sellForm.style.display = 'block'
+        secondBuyBtn.style.color = 'white'
+        secondSellBtn.style.color = 'red'
+    }
+    buyCloseBtn.onclick = function () {
+        modal.style.display = ' none'
+    }
+    sellCloseBtn.onclick = function () {
+        modal.style.display = 'none'
+    }
+    window.onclick = function(event) {
+    if (event.target == document.getElementById("buyModal")) {
+        document.getElementById("buyModal").style.display = "none";
+    }
+}
+</script>

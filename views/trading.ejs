@@ -1,0 +1,381 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel = 'stylesheet' href="/css/dashboard.css">
+
+<%- include('partials/dashboardHeader') -%>
+
+<script src = 'js/trading.js'></script>
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#container {
+    margin-top: 1em;
+    font-size: 1.3em;
+    padding: 0 1em;  
+}
+#container h2 {
+    border-bottom: 1px solid #888;
+    padding-bottom: 8px;
+}
+#invest {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+    margin-top: 1em;
+}
+#invest span {
+    color: #008080
+}
+.balance-info {
+    display: flex;
+}
+.balance-info h3 {
+    margin-right: 10px;
+    border: 1px solid #888;
+    padding: 0.5em; 
+}
+#start button {
+    padding: 0.5em;
+    background-color: #008080;
+}
+#start button:hover {
+    background-color: #035050;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+    margin: 20% auto;
+    padding: 10px;
+    width: 90%;
+    color: black;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    background-color: #0A0A0A;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    color: white;
+    padding-bottom: 6px;
+}
+input {
+    margin-bottom: 10px;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #212121;
+}
+input[type="submit"] {
+    align-self: flex-end;
+    margin-top: 0.3em;
+    padding: 10px 20px;
+    background-color: #008080;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+#holdings {
+    margin: 1em;
+    border: 1px solid #888; 
+}
+#holdings h3, #analysis h3 {
+    font-size: 1.1em;
+    font-weight: 400;
+    border-bottom: 1px solid #888;
+    padding: .5em;
+}
+#analysis h3 {
+    border-bottom: none;
+}
+#analysis {
+    margin: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+}
+#analysis .chart, #analysis .feedback{
+    border: 1px solid #888
+}
+
+#analysis h3 {
+    border-bottom: 1px solid #888;
+}
+#headline {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #212121;
+    font-size: 0.75em;
+}
+#headline h3 {
+    border-bottom: none;
+}
+table#headline1 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table#headline1 th, table#headline1 td {
+    padding: 10px;
+    text-align: center;
+}
+
+table#headline1 th {
+    background-color: #212121;
+    padding: 10px;
+}
+table#headline1 td {
+    padding: 8px 6px;
+    padding-top: 8px;
+}
+.gain {
+    color: #1fd655;
+}
+.loss {
+    color: red;
+}
+#trade {
+    background-color: #1fd655;
+    color: black;
+    padding: 0.25em;
+    border-radius: 8px;
+}
+.symbol {
+    font-weight: 600;
+}
+.trade {
+    display: flex
+}
+td a {
+    background-color: #1fd655;
+    padding: 5px;
+    border-radius: 5px;
+}
+#analysis .chart p, #submitButton {
+    text-align: center;
+    font-size: 0.8em;
+    color: #ccd0d8;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+#submitButton {
+    font-size: 0.65em;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em;
+    margin-bottom: 2em;
+    cursor: pointer;
+}
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #4A90E2;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#loadingSpinner p {
+    padding: 7px;
+    font-size: 0.8em;
+}
+@media (max-width: 768px) {
+    table#headline1 {
+    font-size: 14px;
+    }
+    table#headline1 th, table#headline1 td {
+    padding: 8px;
+    }
+}
+@media screen  and (max-width: 480px) {
+    .balance-info {
+        flex-direction: column;
+    }
+    .balance-info h3:nth-child(1) {
+        border-bottom: none;
+    }
+    .balance-info h3, #start button{
+        font-size: 0.7em;
+    }
+    table#headline1 {
+            font-size: 12px;
+    }
+    td,th{
+        font-size: 0.6em;
+    }
+    #holdings h3, #analysis h3 {
+        font-size: 1em;
+    }
+    td a {
+        padding: 4px;
+    }
+    #analysis {
+        flex-direction: column;
+        display: flex;
+
+    }
+}
+</style>
+
+
+<div id="container">
+    <h2>Stock Trading Platform</h2>
+</div>
+
+<div id="invest">
+    <div class="balance-info">
+        <% if (currentBalance) { %>
+            <h3>Current Amount: $ <span><%= currentBalance %></span></h3>
+        <% } else { %>
+            <h3>Current Amount: $ 1000000</h3> 
+        <% } %>
+        <% if ( amountInvested ) { %>
+            <h3>Invested Amount: $ <span><%= amountInvested %></span></h3>
+        <% } else { %>
+            <h3>Invested Amount: $ 0</h3>
+        <% } %>
+    </div>
+    <div id="start">
+        <button id="buyButton">Invest</button>
+    </div>
+</div>
+
+
+
+<div id="buyModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Buy Stocks</h2>
+        <form method = 'POST', action = '/trading'>
+            <label for="stock">Stock Symbol:</label>
+            <input type="text" id="stock" name="symbol" required>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" required step = '0.001' name="quantity" min="0.001" placeholder = "How many units are you interested in buying?" required>
+            <input type="submit" value="Buy">
+        </form>
+    </div>
+</div>
+
+<div id = 'analysis'>
+    <section class="chart">
+        <h3>Trade Analysis</h3>
+        <div id="chart"></div>
+        <% if (data && data.length > 0) { %>
+            <script>
+                const chartData = JSON.parse('<%- data %>');
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const trace = {
+                        x: chartData.map(data => data.x),
+                        y: chartData.map(data => data.y),
+                        mode: 'lines+markers',
+                        name: 'Daily Gains/Losses',
+                        marker: { color: 'blue' },
+                        line: { shape: 'spline' }
+                    };
+
+                    const layout = {
+                        title: 'Daily Gains/Losses Over Time',
+                        xaxis: { title: 'Date' },
+                        yaxis: { title: 'Gain/Loss Amount' }
+                    };
+
+                    Plotly.newPlot('chart', [trace], layout);
+                });
+            </script>
+        <% } else { %>
+            <p>No data available to display</p>
+        <% } %>
+    </section>
+    <section class="feedback">
+        <h3>AI Feedback</h3>
+        <button id="submitButton">Get Feedback</button>
+        <div id="loadingSpinner" class="hidden">
+            <div class="spinner"></div>
+            <p>Processing your request...</p>
+        </div>
+        <div id="responseContainer"></div>
+    </section>
+    
+</div>
+<div id = 'holdings'>
+    <h3>Position &#x1F4BC;</h3>
+    <table id='headline1'>
+        <tr>
+          <th>Symbol</th>
+          <th>Current Value</th>
+          <th>Holdings</th>
+          <th>Entry Price</th>
+          <th>Current Price</th>
+          <th>Trend</th>
+          <th>Profit / Loss</th>
+          <th>Update Trade</th>
+        </tr>
+        <% if (assets) { %>
+            <% for (let i = assets.length - 1; i >= 0; i--) { %>
+                <tr>
+                  <td class = 'symbol'><%= assets[i].symbol %></td>
+                  <td><%= assets[i].currentValue.toFixed(3) %></td>
+                  <td><%= assets[i].holdings.toFixed(2)%></td>
+                  <td><%= assets[i].entryPrice %></td>
+                  <td><%= assets[i].currentPrice %></td>
+                  <% if (assets[i].gain) { %>
+                  <td class = 'gain'><span><i class="fa-solid fa-arrow-trend-up"></i></span></td>
+                  <td class = 'gain'>
+                      +<%= (assets[i].gain).toFixed(2) %>      
+                  </td>
+                  <% } else { %>
+                    <td class = 'loss'><span><i class="fa-solid fa-arrow-trend-down"></i></span></td>
+                    <td class = 'loss'> 
+                         -<%= (assets[i].loss).toFixed(2) %>
+                    </td>
+                   <% } %>
+                   <td><a href = '/trading/trade/<%= assets[i].goalID %>'>Trade</a></td>
+                </tr>
+                <% } %>
+       <% } else { %>
+
+       <% } %>
+
+      </table>
+</div>
+
+<script src = 'js/trading.js'></script>
+

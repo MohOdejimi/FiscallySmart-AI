@@ -1,0 +1,178 @@
+<link rel="stylesheet" href="/css/stock.css">
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel = 'stylesheet' href="/css/dashboard.css">
+
+<%- include('partials/dashboardHeader') -%>
+
+
+<style>
+    #goal-details {
+        margin: 1em 5em;
+    }
+    .grid-item {
+        background: linear-gradient(#001F3F, #008080);
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        height: 200px;
+        transition: transform 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+        color: white;
+    }
+    .grid-item div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .grid-item p {
+        font-weight: 300;
+        text-align: center;
+    }
+    .add-money-form {
+        margin-top: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .add-money-form input {
+        padding: 0.5em;
+        margin-bottom: 0.5em;
+        width: 80%;
+        max-width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: black;
+    }
+    .add-money-form div {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 1em;
+    }
+    .add-money-form button {
+        padding: 0.5em 1em;
+        background-color: #008080;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 0.6em;;
+    }
+    .add-money-form button i {
+        padding-right: 10px;
+    }
+    .targetAmount {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1em;
+    }
+    .targetAmount p {
+        font-weight: 300;
+        font-size: 0.75em;
+    }
+    .createdAt {
+        font-size: 0.85em;
+    }
+    h2 {
+        font-size: 1.25em;
+    }
+    .transactions {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid white;
+        font-size: 0.75em;
+        margin-bottom: 0.75em;
+        margin-top: 1em;
+        padding: 1em;
+    }
+    .transactionsdetails {
+        display: flex;
+        gap: 1em;
+    }
+    .transactionsdetails i, .transactions h3{
+        align-self: center;
+    }
+    @media screen and (max-width: 480px) {
+        #goal-details {
+            margin: 1em;
+        }
+        .grid-item {
+            height: auto;
+            padding: 1em;
+        }
+        .add-money-form input {
+            width: 100%;
+            max-width: none;
+        }
+        .activities {
+            font-size: 0.85em;
+        }
+        .activities h2 {
+            font-size: 0.95em;
+        }
+        .targetAmount h3 {
+            font-size: 0.85em;
+        }
+    }
+</style>
+
+
+<div id="goal-details">
+    <div class="grid-item">
+        <div>
+            <h3>
+                <%= name %>
+            </h3>
+            <p> <i class="fa-solid fa-home"></i> Home Plan</p>
+            <p class = 'createdAt'>Created at: <%= createdAt %></p>
+        </div>
+    </div>
+    <div class = 'targetAmount'>
+        <div>
+            <h3>Current Amount: $<%= current_amount %></h3>
+            <p><%= percentageAchieved %>% achieved</p>
+        </div>
+        <h3>Target Amount: $<%= target_amount %></h3>
+    </div>
+    <form class="add-money-form" action="/goals/2/<%= id %>/?_method=PUT" method="POST">
+        <input type="number" name="current_amount" placeholder="Enter amount" required>
+        <div>
+            <button type="submit" name = "action" value = "add"><i class="fa-solid fa-plus"></i>Add Money</button>
+            <button type="submit" name = "action" value = "withdraw"><i class="fa-solid fa-minus"></i>Withdraw Money</button>
+        </div>
+    </form>
+
+    
+
+    <div class="activities">
+        <% if (businessActivities && businessActivities.length > 0) { %>
+        <h2>Recent Activities</h2>
+        <% for (let i = businessActivities.length - 1; i >= 0; i--) { %>
+        <div class="transactions">
+          <% if (businessActivities[i].withdraw) { %>
+          <div class="transactionsdetails">
+            <i class="fa-solid fa-wallet"></i>
+            <div>
+              <h3><%= name %> debited</h3>
+              <%= new Date(businessActivities[i].created_at).toLocaleString() %>
+            </div>
+          </div>
+          <h3>- $<%= businessActivities[i].withdraw %></h3>
+          <% } else { %>
+          <div class="transactionsdetails">
+            <i class="fa-solid fa-wallet"></i>
+            <div>
+              <h3><%= name %> credited</h3>
+              <%= new Date(businessActivities[i].created_at).toLocaleString() %>
+            </div>
+          </div>
+          <h3>+ $<%= businessActivities[i].add %></h3>
+          <% } %>
+        </div>
+        <% } %>
+        <% } %>
+      </div>
+</div>
