@@ -42,8 +42,9 @@ module.exports = {
       })
       await newUserBalance.save()
     }   
- 
-    const currentBalance = (userbalance[0]).currentBalance - amountInvested
+    const savedBalance = await CurrentBalanceSchema.find({ userID: userID })
+    console.log(savedBalance)
+    const currentBalance = (savedBalance[0]).currentBalance - amountInvested
     const filter = {userID: req.user.id };
     const update = { $set: { currentBalance: currentBalance, amountInvested: amountInvested } };
     const updatedBalance = await CurrentBalanceSchema.updateOne(filter, update);
@@ -103,8 +104,12 @@ module.exports = {
       console.error('Error processing data:', err);
     }
 
-    const today = new Date().toISOString().slice(0, 10);
-    const DayBalance = await DailyProfitLossSchema.findOne({ userID, date: today });
+    const today = new Date();
+
+    today.setDate(today.getDate() - 1);
+    const yesterday = today.toISOString().slice(0, 10);
+
+    const DayBalance = await DailyProfitLossSchema.findOne({ userID, date: yesterday });
 
     let totalGainLoss = 0;
     const assets = await PortfolioSchema.find({ userID })
@@ -119,7 +124,7 @@ module.exports = {
     if (!DayBalance) {
       const newGainLoss = new DailyProfitLossSchema({
         userID: userID,
-        date: today,
+        date: yesterday,
         gainLoss: totalGainLoss
       });
       await newGainLoss.save();
