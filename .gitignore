@@ -1,5 +1,4 @@
 node-modules/
 .env
-config
 node_modules
-.vercel
+

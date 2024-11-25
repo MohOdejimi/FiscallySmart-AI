@@ -70,6 +70,6 @@ app.use('/goals', goalsRoutes)
 app.use('/trading', tradeRoutes)
 app.use('/ai', aiRoutes)
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 5050, () => {
     console.log(`Server is running at port ${process.env.PORT}`)
-})
+}) 

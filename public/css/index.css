@@ -132,18 +132,15 @@ footer div {
         margin-right: 2rem;
         margin-left: 2rem;
     }
-
     .signup {
         padding: 0.3em 0.6em;
         font-size: 0.9em;
         margin: 0.5em;
     }
-
     .page div p {
       font-size: 1em;
       max-width: 100%;
     }   
-
     .page div h3 {
         font-size: 1.3em;
     }
@@ -163,8 +160,6 @@ footer div {
     }
 }
 
-/* Ipad Pro */
-
 @media screen and (max-width: 1400px) {
     body {
         margin-right: 2rem;
@@ -175,26 +170,63 @@ footer div {
         font-size: 1rem;
     }
 }
-
-/* Media Queries for mobile phones */
 @media screen and (max-width: 480px) {
     body {
-        margin-right: 1rem;
-        margin-left: 1rem;
-    }
-    .page {
-        flex-direction: column;
-    }
-    .login {
-        padding: .3em .5rem;
+        margin: 1rem;
+        font-size: 90%;
     }
     .nav {
-        margin: initial;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 0.5rem;
     }
-    .getStarted{
-        padding: .2em;
+    .nav .header {
+        font-size: 1.2rem; 
+    }
+    .login {
+        padding: 0.3em 0.7rem;
+        font-size: 0.9rem; 
+    }
+    .page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 1rem 0; 
+    }
+    .page h3 {
+        font-size: 1.1rem; 
+        line-height: 1.4; 
+    }
+    .page p {
+        font-size: 0.9rem;
+        line-height: 1.5; 
+        margin: 0.5rem 0; 
+    }
+    .getStarted {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5em 1em;
+        font-size: 0.75rem;
+        background-color: #007bff; 
+        color: #fff;
+        border-radius: 0.3rem;
+        text-decoration: none;
+        margin: 1rem 0; 
+    }
+    .getStarted:hover {
+        background-color: #0056b3; 
     }
     .getStarted i {
-        font: .5em;
+        margin-left: 0.5rem;
+        font-size: 0.9rem; 
+    }
+    .page img {
+        max-width: 100%; 
+        height: auto;
+        margin-top: 1rem; 
     }
 }

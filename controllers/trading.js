@@ -350,7 +350,8 @@ module.exports = {
       res.redirect(`/trading/trade/${goalID}`);
     } catch (err) {
       console.error('Error updating trade:', err);
-      res.status(500).send('Error updating trade');
+      const goalID = req.params.id;
+      res.redirect(`/trading/trade/${goalID}`);
     }
   }
 }
